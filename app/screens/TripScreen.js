@@ -17,7 +17,7 @@ const TripScreen = ({ user, navigation }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const { trips, setTrips } = useTrips();
 
-
+    //Set day status with real time
     const findGreet = () => {
         const hrs = new Date().getHours();
         if (hrs === 0 || hrs < 12) return setGreet('Morning');
@@ -29,6 +29,7 @@ const TripScreen = ({ user, navigation }) => {
         findGreet();
     }, []);
 
+    //Sumbit for update trip
     const handleOnSubmit = async (title, dest, date, risk, desc) => {
         // console.log(title, dest, date, risk, desc)        
         const trip = { id: Date.now(), title, dest, date, risk, desc, time: Date.now() };

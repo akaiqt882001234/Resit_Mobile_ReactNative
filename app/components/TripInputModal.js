@@ -1,13 +1,13 @@
 //import liraries
 
-import React, { Component, useState } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Modal, StatusBar, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import colors from '../misc/colors';
 import RoundIconBtn from './RoundIconBtn';
 
 
 // create a component
-const TripInputModal = ({ visible, onClose, onSubmit }) => {
+const TripInputModal = ({ visible, onClose, onSubmit, trip, isEdit }) => {
     const [title, setTitle] = useState('');
     const [dest, setDest] = useState('');
     const [date, setDate] = useState('');
@@ -18,6 +18,17 @@ const TripInputModal = ({ visible, onClose, onSubmit }) => {
     const handleModalClose = () => {
         Keyboard.dismiss;
     };
+
+    useEffect(() => {
+        if (isEdit) {
+            setTitle(trip.title)
+            setDest(trip.dest)
+            setDate(trip.date)
+            setRisk(trip.risk)
+            setDesc(trip.desc)
+
+        }
+    }, [isEdit]);
 
     const handleOnChangeText = (text, valueFor) => {
         if (valueFor === 'title') setTitle(text);
@@ -30,48 +41,55 @@ const TripInputModal = ({ visible, onClose, onSubmit }) => {
     // console.log(title, dest, date, risk, desc);
 
     const handleSubmit = () => {
-        if (!title.trim() &&
-            !dest.trim() &&
-            !date.trim() &&
-            !risk.trim() &&
-            !desc.trim())
+        if (!title.trim() && !dest.trim() && !date.trim() && !risk.trim() && !desc.trim())
             return onClose();
-        onSubmit(title, dest, date, risk, desc);
-        setTitle('');
-        setDest('');
-        setDate('');
-        setRisk('');
-        setDesc('');
+        if (isEdit) {
+            onSubmit(title, dest, date, risk, desc)
+        } else {
+            onSubmit(title, dest, date, risk, desc);
+            setTitle('');
+            setDest('');
+            setDate('');
+            setRisk('');
+            setDesc('');
+        }
         onClose();
-    }
+    };
 
     const closeModal = () => {
-        setTitle('');
-        setDest('');
-        setDate('');
-        setRisk('');
-        setDesc('');
+        if (!isEdit) {
+            setTitle('');
+            setDest('');
+            setDate('');
+            setRisk('');
+            setDesc('');
+        }
         onClose();
 
-    }
+    };;
 
     return (
         <>
             <StatusBar hidden />
             <Modal visible={visible} animationType='fade'>
                 <View style={styles.container}>
+                    <Text style={styles.text}>Title:</Text>
                     <TextInput value={title} onChangeText={(text) => handleOnChangeText(text, 'title')}
                         placeholder='Title'
                         style={[styles.input, styles.title]} />
+                    <Text style={styles.text}>Destination:</Text>
                     <TextInput value={dest} onChangeText={(text) => handleOnChangeText(text, 'dest')}
                         placeholder='Destination'
                         style={[styles.input, styles.dest]} />
+                    <Text style={styles.text}>Date of Trip:</Text>
                     <TextInput value={date} onChangeText={(text) => handleOnChangeText(text, 'date')}
                         placeholder='Date'
                         style={[styles.input, styles.date]} />
+                    <Text style={styles.text}>Require Risk:</Text>
                     <TextInput value={risk} onChangeText={(text) => handleOnChangeText(text, 'risk')}
                         placeholder='Risk'
                         style={[styles.input, styles.risk]} />
+                    <Text style={styles.text}>Description:</Text>
                     <TextInput value={desc} onChangeText={(text) => handleOnChangeText(text, 'desc')}
                         placeholder='Description'
                         style={[styles.input, styles.desc]} />
@@ -110,7 +128,7 @@ const styles = StyleSheet.create({
     title: {
         height: 40,
         marginBottom: 15,
-        fontWeight: 'bold',
+
     },
     date: {
         height: 40,
@@ -120,10 +138,16 @@ const styles = StyleSheet.create({
     },
 
     dest: {
-        height: 100,
+        height: 50,
     },
     desc: {
-        height: 50,
+        height: 100,
+    },
+    text: {
+        fontSize: 18,
+        paddingBottom: 10,
+        fontWeight: 'bold',
+
     },
     modalBG: {
         flex: 1,
