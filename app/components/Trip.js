@@ -11,10 +11,10 @@ const Trip = ({ item, onPress }) => {
 
         <TouchableOpacity onPress={onPress} style={styles.container}>
             <Text style={styles.title} numberOfLines={2}>{title}</Text>
-            <Text numberOfLines={3}>Destination: {dest}</Text>
-            <Text numberOfLines={4}>Date: {date}</Text>
-            <Text numberOfLines={5}>Require Risk: {risk}</Text>
-            <Text numberOfLines={6}>Description: {desc}</Text>
+            <Text style={styles.text} numberOfLines={3}>Destination: {dest}</Text>
+            <Text style={styles.text} numberOfLines={4}>Date: {date}</Text>
+            <Text style={styles.text} numberOfLines={5}>Require Risk: {risk}</Text>
+            <Text style={styles.text} numberOfLines={6}>Description: {desc}</Text>
         </TouchableOpacity>
 
     );
@@ -33,6 +33,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 15,
         color: colors.LIGHT,
+    },
+    text: {
+        color: colors.LIGHT,
+        fontWeight: 'light',
+        fontSize: 12,
     }
 });
 

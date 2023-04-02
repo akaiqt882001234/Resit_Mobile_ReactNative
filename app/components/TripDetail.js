@@ -105,7 +105,7 @@ const TripDetail = props => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFF',
+        backgroundColor: '#F9F5EB',
         paddingHorizontal: 20,
         paddingVertical: 50,
     },
